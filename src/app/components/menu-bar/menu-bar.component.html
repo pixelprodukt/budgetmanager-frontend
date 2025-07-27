@@ -1,44 +1,35 @@
-<div class="w-full bg-teal-700 shadow-md">
+<nav class="w-full bg-teal-700 shadow-md">
     <div class="mx-auto">
-        <ul class="flex">
-            <li>
-                <a class="block p-3 bg-teal-600 hover:bg-teal-900"
-                   href="">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 24 24"
-                         fill="#fff"
-                         class="size-6">
-                        <path fill-rule="evenodd"
-                              d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z"
-                              clip-rule="evenodd" />
-                    </svg>
-                </a>
-            </li>
-            <li>
-                <a class="block p-3 bg-teal-600 hover:bg-teal-900"
-                   href="">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 24 24"
-                         fill="#fff"
-                         class="size-6">
-                        <path
-                              d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z" />
-                    </svg>
-                </a>
-            </li>
-            <li>
-                <a class="block p-3 bg-teal-600 hover:bg-teal-900"
-                   href="">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 24 24"
-                         fill="#fff"
-                         class="size-6">
-                        <path fill-rule="evenodd"
-                              d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                              clip-rule="evenodd" />
-                    </svg>
-                </a>
-            </li>
-        </ul>
+
+        <div role="tablist"
+             class="tabs">
+            <a role="tab"
+               [routerLink]="['/main', 'input']"
+               [routerLinkActive]="['tab-active']"
+               [routerLinkActiveOptions]="{exact: true}"
+               class="tab hover:bg-teal-900">
+                <lucide-icon [img]="plusIcon" />
+            </a>
+            <a role="tab"
+               [routerLink]="['/main', 'overview']"
+               [routerLinkActive]="['tab-active']"
+               [routerLinkActiveOptions]="{exact: true}"
+               class="tab hover:bg-teal-900">
+                <lucide-icon [img]="bookIcon" />
+            </a>
+            <a role="tab"
+               [routerLink]="['/main', 'user-profile']"
+               [routerLinkActive]="['tab-active']"
+               [routerLinkActiveOptions]="{exact: true}"
+               class="tab hover:bg-teal-900">
+                <lucide-icon [img]="userIcon" />
+            </a>
+        </div>
+
     </div>
-</div>
+
+</nav>
+
+<section class="p-6">
+    <router-outlet />
+</section>

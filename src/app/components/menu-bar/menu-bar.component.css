@@ -1,0 +1,11 @@
+a > svg {
+    fill: color-mix(in oklab, var(--color-base-content) 50%, transparent);
+}
+
+a.tab-active {
+    background-color: var(--color-teal-900);
+}
+
+a.tab-active > svg {
+    fill: var(--color-base-content);
+}

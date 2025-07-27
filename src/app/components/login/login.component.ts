@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomInputComponent } from '../custom-input/custom-input.component';
-import { TokenResponse } from '../../models/token-response.model';
+import { TokenResponse } from '../../models/token-response';
 import { catchError, Observable, of, Subject, takeUntil } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
