@@ -1,1 +1,16 @@
-<p>budget-input works!</p>
+<form [formGroup]="amountForm">
+    <div class="flex items-center">
+        <div class="text-4xl font-bold">€</div>
+        <input formControlName="amountInput"
+               placeholder="0.00"
+               action="#"
+               id="amountInput"
+               type="text"
+               autocomplete="off"
+               inputmode="decimal"
+               class="input text-4xl font-bold border-none focus:border-none outline-none focus:outline-none focus-within:outline-none placeholder:text-gray-500" />
+        <button type="submit"
+                class="btn btn-primary"
+                (click)="debug()">debug</button>
+    </div>
+</form>
