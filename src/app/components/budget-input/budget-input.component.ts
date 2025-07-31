@@ -29,6 +29,10 @@ export class BudgetInputComponent implements AfterViewInit {
         this.amountInputElement?.nativeElement.focus();
     }
 
+    protected debug(): void {
+        console.log(this.value());
+    }
+
     protected onInput(event: Event): void {
         const input = event.target as HTMLInputElement;
         const inputValue = input.value;
@@ -39,110 +43,9 @@ export class BudgetInputComponent implements AfterViewInit {
         } else {
             input.value = this.displayValue();
         }
-
-        //input.value = sanitized;
-
-        /* const input = event.target as HTMLInputElement;
-        let inputValue = input.value;
-
-        // Remove all non-digit and non-decimal characters
-        inputValue = inputValue.replace(`/[^\d${this.delimiter}]/g`, '');
-
-        // TODO: Handle local specifix character for decimals, either dot or comma depending on system used by user
-        // Handle multiple decimal points - keep only the first one
-        const decimalIndex = inputValue.indexOf(this.delimiter);
-        if (decimalIndex !== -1) {
-            inputValue = inputValue.substring(0, decimalIndex + 1) +
-                inputValue.substring(decimalIndex + 1).replace(/\./g, '');
-        }
-
-        // Limit to 2 decimal places
-        if (decimalIndex !== -1 && inputValue.length > decimalIndex + 3) {
-            inputValue = inputValue.substring(0, decimalIndex + 3);
-        }
-
-        // Convert to number and validate range
-        const numericValue = parseFloat(inputValue) || 0;
-
-        if (numericValue > this.maxValue) {
-            inputValue = this.maxValue.toFixed(2);
-        }
-
-        if (numericValue < this.minValue) {
-            // Allow temporary values less than min while typing
-            if (!this.isFocused) {
-                inputValue = this.minValue.toFixed(2);
-            }
-        }
-
-        // Update cursor position
-        const cursorPosition = input.selectionStart;
-        input.value = inputValue;
-        this.displayValue.set(inputValue);
-
-        // Restore cursor position
-        if (cursorPosition !== null) {
-            input.setSelectionRange(cursorPosition, cursorPosition);
-        }
-
-        this.value = parseFloat(inputValue) || 0; */
     }
 
-    /* protected onFocus(event: Event): void {
-        this.isFocused = true;
-        const input = event.target as HTMLInputElement;
-
-        // Show raw value when focused (remove formatting)
-        if (this.value === 0) {
-            this.displayValue.set('');
-        } else {
-            this.displayValue.set(this.value.toString());
-        }
-
-        // Select all text for easy editing
-        setTimeout(() => input.select(), 0);
-    } */
-
-    /* protected onBlur(event: Event): void {
-        this.isFocused = false;
-
-        // Validate final value
-        if (this.value < this.minValue) {
-            this.value = this.minValue;
-        }
-
-        this.updateDisplayValue();
-    } */
-
-    /* protected onKeyDown(event: KeyboardEvent): void {
-        // Allow: backspace, delete, tab, escape, enter, home, end, left, right, decimal point
-        const allowedKeys = [
-            'Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'Home', 'End',
-            'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '.', ','
-        ];
-
-        // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z
-        if (event.ctrlKey && ['a', 'c', 'v', 'x', 'z'].includes(event.key.toLowerCase())) {
-            return;
-        }
-
-        // Allow numbers
-        if (event.key >= '0' && event.key <= '9') {
-            return;
-        }
-
-        // Allow allowed keys
-        if (allowedKeys.includes(event.key)) {
-            return;
-        }
-
-        // Prevent everything else
-        event.preventDefault();
-    } */
-
-    onKeyDown(event: KeyboardEvent) {
-        // Allow control keys
-        if (event.ctrlKey || event.metaKey) return;
+    protected onKeyDown(event: KeyboardEvent) {
 
         if (event.key === 'Enter') {
             // TODO: Save current value, 
@@ -160,7 +63,6 @@ export class BudgetInputComponent implements AfterViewInit {
 
     private sanitizeInput(input: string): string {
         // Remove any invalid characters
-        //const regex = new RegExp(`[^0-9\\${this.delimiter}]`, 'g');
         let sanitized = input.replace(`/[^\d${this.delimiter}]/g`, '');
 
         // Prevent delimiter as first character
@@ -180,7 +82,7 @@ export class BudgetInputComponent implements AfterViewInit {
             parts[1] = parts[1].slice(0, 2);
             sanitized = parts[0] + this.delimiter + parts[1];
         }
-        console.log('sanitized', sanitized);
+
         return sanitized;
     }
 }
