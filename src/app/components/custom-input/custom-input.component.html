@@ -6,6 +6,9 @@
        (blur)="onTouched()"
        [attr.placeholder]="placeholder"
        [attr.type]="type"
+       autocomplete="off"
+       spellcheck="false"
+       autocorrect="off"
        [class]="{ 'border': error, 'border-red-600': error }"
        class="input w-full placeholder:text-gray-500 placeholder:italic" />
 
