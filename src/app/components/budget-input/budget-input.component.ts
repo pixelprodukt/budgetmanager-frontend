@@ -1,8 +1,12 @@
 import { AfterViewInit, Component, computed, effect, ElementRef, signal, ViewChild } from '@angular/core';
+import { Expense } from '../../models/expense';
+import { Pencil, LucideAngularModule } from 'lucide-angular';
 
 @Component({
     selector: 'bm-budget-input',
-    imports: [],
+    imports: [
+        LucideAngularModule
+    ],
     templateUrl: './budget-input.component.html',
     styleUrl: './budget-input.component.css'
 })
@@ -21,9 +25,13 @@ export class BudgetInputComponent implements AfterViewInit {
     protected readonly placeholder = '0,00';
     protected readonly maxValue = 999999.99;
     protected readonly minValue = 0;
+    protected readonly pencilIcon = Pencil;
+    protected loading = false;
 
     protected displayValue = signal('');
     protected delimiter: '.' | ',' = ',';
+    protected expenses = signal<Expense[]>([]);
+    protected selectedMonth = signal('August');
 
     public ngAfterViewInit(): void {
         this.amountInputElement?.nativeElement.focus();
@@ -48,10 +56,9 @@ export class BudgetInputComponent implements AfterViewInit {
     protected onKeyDown(event: KeyboardEvent) {
 
         if (event.key === 'Enter') {
-            // TODO: Save current value, 
-            // reload list of last added values, 
-            // reset displayValue and value
+            this.expenses.update(oldVal => [...oldVal, this.createNewExpense()]);
             this.displayValue.set('');
+            console.log('expensesn', this.expenses());
         }
 
         const allowed = /^[0-9]$/.test(event.key) || event.key === this.delimiter || event.key === 'Backspace' || event.key === 'Delete' || event.key === 'ArrowLeft' || event.key === 'ArrowRight';
@@ -84,5 +91,13 @@ export class BudgetInputComponent implements AfterViewInit {
         }
 
         return sanitized;
+    }
+
+    private createNewExpense(): Expense {
+        return {
+            amount: this.value()!,
+            description: 'This is a potential description if you want to specify, what the money was spent for, for example.',
+            spentAt: new Date()
+        }
     }
 }

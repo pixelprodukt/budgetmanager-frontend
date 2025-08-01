@@ -1,4 +1,4 @@
-<div class="flex items-center">
+<div class="flex items-center mb-8">
     <div class="text-6xl font-bold">{{currencySymbol()}}</div>
     <input #amountInput
            id="amountInput"
@@ -15,5 +15,50 @@
 </div>
 
 <button type="button"
-            class="btn btn-primary block"
-            (click)="debug()">debug</button>
+        class="btn btn-primary block mb-8"
+        (click)="debug()">debug</button>
+
+<ul class="list bg-base-100 rounded-box shadow-xl border">
+
+    <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">Expenses for {{ selectedMonth() }}</li>
+
+    @for (expense of expenses(); track $index) {
+    <li class="list-row items-center break-normal">
+        <div>
+            <div class="text-md">{{ expense.description }}</div>
+        </div>
+        <div>
+            <div class="text-xl text-right">{{ expense.amount }}</div>
+            <!-- <div class="text-xs uppercase font-semibold opacity-60">Remaining Reason</div> -->
+        </div>
+        <div>
+            <div class="text-xl">{{ currencySymbol() }}</div>
+        </div>
+        <div>
+            <button class="btn btn-outline btn-square">
+                <lucide-icon [img]="pencilIcon" />
+            </button>
+        </div>
+    </li>
+    }
+
+    <li class="list-row items-center">
+        <div>
+            <div class="text-xl font-bold">Total: 0,00</div>
+            <!-- <div class="text-xs uppercase font-semibold opacity-60">Remaining Reason</div> -->
+        </div>
+        <div>
+            <div class="text-xl">{{ currencySymbol() }}</div>
+        </div>
+        <button class="btn btn-outline btn-square">
+            <lucide-icon [img]="pencilIcon" />
+        </button>
+    </li>
+
+</ul>
+
+@if (loading) {
+<div class="bg-loading">
+    <span class="loading loading-spinner loading-xl"></span>
+</div>
+}
