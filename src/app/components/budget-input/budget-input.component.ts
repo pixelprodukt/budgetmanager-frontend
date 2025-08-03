@@ -1,11 +1,13 @@
 import { AfterViewInit, Component, computed, effect, ElementRef, signal, ViewChild } from '@angular/core';
 import { Expense } from '../../models/expense';
 import { Pencil, LucideAngularModule } from 'lucide-angular';
+import { CustomDatepickerComponent } from '../custom-datepicker/custom-datepicker.component';
 
 @Component({
     selector: 'bm-budget-input',
     imports: [
-        LucideAngularModule
+        LucideAngularModule,
+        CustomDatepickerComponent
     ],
     templateUrl: './budget-input.component.html',
     styleUrl: './budget-input.component.css'
@@ -32,6 +34,8 @@ export class BudgetInputComponent implements AfterViewInit {
     protected delimiter: '.' | ',' = ',';
     protected expenses = signal<Expense[]>([]);
     protected selectedMonth = signal('August');
+
+    
 
     public ngAfterViewInit(): void {
         this.amountInputElement?.nativeElement.focus();
