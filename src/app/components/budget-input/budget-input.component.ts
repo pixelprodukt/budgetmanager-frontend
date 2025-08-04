@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, computed, effect, ElementRef, signal, ViewChild } from '@angular/core';
 import { Expense } from '../../models/expense';
 import { Pencil, LucideAngularModule } from 'lucide-angular';
-import { CustomDatepickerComponent } from '../custom-datepicker/custom-datepicker.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'bm-budget-input',
     imports: [
         LucideAngularModule,
-        CustomDatepickerComponent
+        FormsModule
     ],
     templateUrl: './budget-input.component.html',
     styleUrl: './budget-input.component.css'
@@ -33,9 +33,34 @@ export class BudgetInputComponent implements AfterViewInit {
     protected displayValue = signal('');
     protected delimiter: '.' | ',' = ',';
     protected expenses = signal<Expense[]>([]);
-    protected selectedMonth = signal('August');
+    protected selectedMonth = signal('');
 
-    
+    protected readonly months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ];
+
+    protected totalForSelectedMonth = computed(() => {
+        const amounts = this.expenses().map(expense => expense.amount);
+        if (amounts.length) {
+            return amounts.reduce((a, b) => a + b);
+        }
+        return 0.0;
+    });
+
+    ngOnInit(): void {
+        this.selectedMonth.set(this.months[new Date().getMonth()]);
+    }
 
     public ngAfterViewInit(): void {
         this.amountInputElement?.nativeElement.focus();
@@ -62,7 +87,7 @@ export class BudgetInputComponent implements AfterViewInit {
         if (event.key === 'Enter') {
             this.expenses.update(oldVal => [...oldVal, this.createNewExpense()]);
             this.displayValue.set('');
-            console.log('expensesn', this.expenses());
+            console.log('expenses', this.expenses());
         }
 
         const allowed = /^[0-9]$/.test(event.key) || event.key === this.delimiter || event.key === 'Backspace' || event.key === 'Delete' || event.key === 'ArrowLeft' || event.key === 'ArrowRight';
@@ -98,10 +123,11 @@ export class BudgetInputComponent implements AfterViewInit {
     }
 
     private createNewExpense(): Expense {
+        const now = new Date();
         return {
             amount: this.value()!,
-            description: 'This is a potential description if you want to specify, what the money was spent for, for example.',
-            spentAt: new Date()
+            description: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDay()}, ${now.getHours()}:${now.getMinutes()}`,
+            spentAt: now
         }
     }
 }

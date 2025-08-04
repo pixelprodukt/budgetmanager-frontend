@@ -14,21 +14,16 @@
            class="input h-auto text-6xl font-bold border-none focus:border-none outline-none focus:outline-none focus-within:outline-none placeholder:text-gray-500" />
 </div>
 
-<button type="button"
-        class="btn btn-primary block mb-8"
-        (click)="debug()">debug</button>
+<fieldset class="fieldset mb-6">
+    <legend class="fieldset-legend">Expenses for month</legend>
+    <select [(ngModel)]="selectedMonth" class="select select-lg">
+        @for (month of months; track $index) {
+            <option>{{ month }}</option>
+        }
+    </select>
+</fieldset>
 
-<!-- <input type="date"
-       class="input mb-4" /> -->
-
-<!-- custom datepicker -->
-<bm-custom-datepicker />
-<!-- /custom datepicker -->
-
-
-<ul class="list bg-base-100 rounded-box shadow-xl border">
-
-    <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">Expenses for {{ selectedMonth() }}</li>
+<ul class="list bg-base-100 rounded-box shadow-xl">
 
     @for (expense of expenses(); track $index) {
     <li class="list-row items-center break-normal">
@@ -37,7 +32,6 @@
         </div>
         <div>
             <div class="text-xl text-right">{{ expense.amount }}</div>
-            <!-- <div class="text-xs uppercase font-semibold opacity-60">Remaining Reason</div> -->
         </div>
         <div>
             <div class="text-xl">{{ currencySymbol() }}</div>
@@ -52,8 +46,10 @@
 
     <li class="list-row items-center">
         <div>
-            <div class="text-xl font-bold">Total: 0,00</div>
-            <!-- <div class="text-xs uppercase font-semibold opacity-60">Remaining Reason</div> -->
+            <div class="text-xl font-bold">Total in {{ selectedMonth() }}:</div>
+        </div>
+        <div>
+            <div class="text-xl font-bold text-right">{{ totalForSelectedMonth() }}</div>
         </div>
         <div>
             <div class="text-xl">{{ currencySymbol() }}</div>
