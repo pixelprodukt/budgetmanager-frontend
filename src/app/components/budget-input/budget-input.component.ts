@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, effect, ElementRef, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, signal, ViewChild } from '@angular/core';
 import { Expense } from '../../models/expense';
 import { Pencil, LucideAngularModule } from 'lucide-angular';
 import { FormsModule } from '@angular/forms';
@@ -60,14 +60,19 @@ export class BudgetInputComponent implements AfterViewInit {
 
     ngOnInit(): void {
         this.selectedMonth.set(this.months[new Date().getMonth()]);
+
+        // TODO some service to fetch expense data for selected month and current user
     }
 
     public ngAfterViewInit(): void {
         this.amountInputElement?.nativeElement.focus();
     }
 
-    protected debug(): void {
-        console.log(this.value());
+    // TODO maybe there is a better way when using DecimalPipe and setup locales
+    // currently I have no idea how to determine which delimiter to use
+    protected formatNumberToFixed(value: number): string {
+        const fixed = value.toFixed(2);
+        return this.delimiter === ',' ? fixed.replace('.', ',') : fixed;
     }
 
     protected onInput(event: Event): void {
