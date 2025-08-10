@@ -19,7 +19,6 @@ export class BudgetInputComponent implements AfterViewInit {
     private value = computed(() => {
         const val = this.displayValue().replace(this.delimiter, '.');
         const parsed = parseFloat(val);
-        console.log('parsed', parsed);
         return isNaN(parsed) ? null : parsed;
     });
 
@@ -92,7 +91,6 @@ export class BudgetInputComponent implements AfterViewInit {
         if (event.key === 'Enter') {
             this.expenses.update(oldVal => [...oldVal, this.createNewExpense()]);
             this.displayValue.set('');
-            console.log('expenses', this.expenses());
         }
 
         const allowed = /^[0-9]$/.test(event.key) || event.key === this.delimiter || event.key === 'Backspace' || event.key === 'Delete' || event.key === 'ArrowLeft' || event.key === 'ArrowRight';
@@ -131,8 +129,20 @@ export class BudgetInputComponent implements AfterViewInit {
         const now = new Date();
         return {
             amount: this.value()!,
-            description: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDay()}, ${now.getHours()}:${now.getMinutes()}`,
+            description: `${this.getFullDate(now)}, ${this.getHoursAndMinutes(now)}`,
             spentAt: now
         }
+    }
+
+    private getFullDate(now: Date): string {
+        return `${now.getFullYear()}-${this.getWithPrecedingZero(now.getMonth() + 1)}-${this.getWithPrecedingZero(now.getDate())}`;
+    }
+
+    private getHoursAndMinutes(now: Date): string {
+        return `${this.getWithPrecedingZero(now.getHours())}:${this.getWithPrecedingZero(now.getMinutes())}`;
+    }
+
+    private getWithPrecedingZero(number: number): string {
+        return number < 10 ? `0${number}` : `${number}`;
     }
 }
